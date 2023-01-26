@@ -17,7 +17,7 @@ class BlockChain:
     def create_block(self,proof,previous_hash):
         block = {"index" : len(self.chain)+1,
                  "timestamp" : str(datetime.datetime().now()),
-                 "proof" : self.proof,
+                 "proof" : proof,
                  "previous_hash" : previous_hash
                  }
         self.chain.append(block)
@@ -36,3 +36,7 @@ class BlockChain:
             else:
                 new_proof += 1
         return new_proof
+    
+    def hash(self,block):
+        encoded_block = json.dumps(block,sort_keys=True).encode()
+        return hashlib.sha256(encoded_block).hexdigest()

@@ -16,7 +16,7 @@ class BlockChain:
         
     def create_block(self,proof,previous_hash):
         block = {"index" : len(self.chain)+1,
-                 "timestamp" : str(datetime.datetime().now()),
+                 "timestamp" : str(datetime.datetime.now()),
                  "proof" : proof,
                  "previous_hash" : previous_hash
                  }
@@ -80,7 +80,7 @@ def mine_block():
     }
     return jsonify(response) , 200
 
-# getting the chain
+# getting the blockchain
 @app.route('/get_chain', methods = ['GET'])
 def get_chain():
     response = {
@@ -88,3 +88,6 @@ def get_chain():
         'length' : len(blockchain.chain)
     }
     return jsonify(response) , 200
+
+# running the appilication
+app.run(host = '0.0.0.0' , port = 5000)

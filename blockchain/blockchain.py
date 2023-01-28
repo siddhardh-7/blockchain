@@ -40,3 +40,19 @@ class BlockChain:
     def hash(self,block):
         encoded_block = json.dumps(block,sort_keys=True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
+    
+    def is_chain_valid(self,chain):
+        previous_block = chain[0]
+        block_index = 1
+        while block_index <len(chain):
+            block = chain[block_index]
+            if block['previous_hash'] != self.hash(previous_block):
+                return False
+            previous_proof = previous_block['proof']
+            proof = block['proof']
+            hash_opearation = hashlib.sha256(str(proof**2 - previous_proof**2).encode() ).hexdigest()
+            if hash_opearation[:4] != '0000':
+                return False
+            previous_block = chain[block_index]
+            block_index += 1
+        return True
